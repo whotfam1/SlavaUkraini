@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/ApocalypseCalculator/SlavaUkraini#readme",
   "dependencies": {
+    "express": "^4.17.3",
     "axios": "^0.26.0",
     "chalk": "^4.1.2",
     "user-agents": "^1.0.939",
