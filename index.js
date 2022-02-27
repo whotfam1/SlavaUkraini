@@ -3,14 +3,19 @@ const chalk = require('chalk');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const argv = yargs(hideBin(process.argv)).argv;
-const http = require('http');
-
-const hostname = '127.0.0.1';
-const port = 3000;
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-
+const express = require('express')
+const app = express()
+const port = 3000
+let isRunning = true;
+app.get('/', (request, response) => {
+response.send('Hello from Express!' + isRunning?'DDOSING':'Went off')
+})
+app.listen(port, (err) => {
+    if (err) {
+        isRunning = false;
+        return console.log('something bad happened', err)
+    }
+    isRunning = true
     let workerCount = 10;
     let counterMap = new Map();
     let startTime = Date.now();
@@ -67,6 +72,7 @@ const server = http.createServer((req, res) => {
         process.stdout.write(chalk.bgCyan(`Total hits: ${commas(totalhits)}\n`));
         process.stdout.write(chalk.bgMagenta(`Hits per second: ${commas((totalhits*1000/(Date.now() - startTime)).toFixed(0))}\n`));
         process.stdout.write(chalk.greenBright(breakdown));
+        isRunning = false
         process.exit();
     }
 
@@ -83,11 +89,7 @@ const server = http.createServer((req, res) => {
     function commas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    res.end('Hello World');
-});
-
-server.listen(port,undefined,() => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-});
+    console.log(`server is listening on ${port}`)
+})
 
 
