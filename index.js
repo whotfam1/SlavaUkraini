@@ -6,7 +6,7 @@ const argv = yargs(hideBin(process.argv)).argv;
 const express = require('express')
 const app = express()
 const readline = require('readline');
-const port = 3000
+const port = process.env.PORT || 3000
 let isRunning = true;
 app.get('/', (request, response) => {
 response.send('Hello from Express!' + isRunning?'DDOSING':'Went off')
